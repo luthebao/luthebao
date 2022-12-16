@@ -19,6 +19,3 @@
 
 
 ➡️ [Visit my blog...](https://beyonderluu.com)
-[website]: https://beyonderluu.com
-[twitter]: https://twitter.com/beyonderluu
-[youtube]: https://youtube.com/@beyonderluu
