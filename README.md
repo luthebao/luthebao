@@ -7,8 +7,6 @@
 
 ### Update 2023
 
-- I found a girl, don't forget to cherish her
-
 
 ### Languages, Frameworks and Tools:
 
