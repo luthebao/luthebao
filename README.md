@@ -4,6 +4,7 @@
 
 - 🌱 I’m currently learning everything 🤣
 - 🥅 2023 Goals: Contribute more to Open Source projects, write more blogs
+- 🥅 2024 Goals: First release of Magic Campus game (made with godot)
 
 ### Update 2023
 
