@@ -12,11 +12,11 @@ Hi there, I'm BaoLT (Beyonderluu/Mitty) 👋
 
 ## Languages, Frameworks and Tools:
 
-- Javascript, Python, C#, PHP, Rust, Move Language, Solidity, Action Script 3, Swift, SQL
-- ReactJS, NextJS, Django, React Native
-- Photoshop, AI, VSCode, Visual Studio, FL Studio, git
-- MongoDB, Firebase, PostgreSQL
-- Ollama, huggingface, LLaMA 3.1, ...
-
+- Languages: js, ts, py, cs, go, sol, as3, swift, sql, gd
+- Frameworks/Libraries: ReactJS, NextJS, Django
+- Game Engine: Godot engine (godot 4)
+- IDEs: VSCode
+- Database: MongoDB, Firebase are suck !! I'm using supabase
+- LLMs: Ollama, huggingface, LLaMA 3.1, ...
 
 ➡️ [Visit my website...](https://beyonderluu.com)
