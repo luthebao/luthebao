@@ -1,6 +1,6 @@
 ---
 title: "VPT Helper — Phần mềm hỗ trợ chơi game Vua Pháp Thuật"
-date: 2026-05-20
+date: 2016-05-20
 lang: vi
 ---
 
