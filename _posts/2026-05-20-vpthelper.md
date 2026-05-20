@@ -24,6 +24,14 @@ Mở file `VPTHelper.exe`. Từ phiên bản **3.2.0** trở đi, bạn **không
 
 **Bước 3 — Sử dụng.**
 
+## Quản lý key
+
+Để quản lý key (đăng ký, gia hạn, kiểm tra trạng thái, đổi key cho các tính năng VIP), truy cập trang quản lý chính thức:
+
+> 🔑 [**vpthelper.beyonderluu.com**](https://vpthelper.beyonderluu.com/)
+
+Toàn bộ thao tác liên quan đến key đều được xử lý trên trang này. Bạn nên ghi lại key của mình ở nơi an toàn để tránh thất lạc.
+
 ## Các chức năng chính
 
 1. **Auto Ngày mới** — chạy lần lượt các auto cơ bản theo lịch admin cài sẵn, bắt đầu từ 0h ngày mới: Auto phụ bản, Tu hành, Thần tu, Ước nguyện, nhận quà không gian điêu khắc, quà hành lang, và auto trồng cây, đấu pet lặp đi lặp lại.
