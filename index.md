@@ -5,21 +5,20 @@ title: luthebao
 
 # Hi, I'm luthebao 👋
 
-Welcome to my corner of the web.
+Welcome to my corner of the web. Below are write-ups of projects I'm working on.
 
-## Projects
+## Posts
 
-- **[vpthelper](vpthelper.txt)** — helper data
-- **[regapple](regapple/sourcecode.txt)** — source code
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <small>— {{ post.date | date: "%B %d, %Y" }}</small>
+    </li>
+  {% endfor %}
+</ul>
 
 ## Links
 
 - GitHub: [@luthebao](https://github.com/luthebao)
 - Site: [beyonderluu.com](https://beyonderluu.com)
-
-<!--
-  TODO: Personalize this homepage. The sections above are placeholders.
-  - Replace the intro with a one-sentence bio.
-  - Curate the Projects list — link only what you want public.
-  - Add/remove Links to match your presence (Twitter, email, blog, etc.).
--->

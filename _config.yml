@@ -1,9 +1,17 @@
 title: luthebao
 description: Personal site of luthebao
-theme: jekyll-theme-cayman
+theme: jekyll-theme-architect
 show_downloads: false
 
-# Exclude data/tool files from the published site
+# Apply the theme's default layout to posts so they render with sidebar + styling
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: default
+
+# Keep raw data/tool files out of the published site
 exclude:
   - vpt/
   - README.md
