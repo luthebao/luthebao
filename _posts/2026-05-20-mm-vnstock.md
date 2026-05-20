@@ -7,6 +7,15 @@ date: 2026-05-20
 
 The app is written in [Odin](https://odin-lang.org/) on top of [Sokol](https://github.com/floooh/sokol), [Dear ImGui](https://github.com/ocornut/imgui), and [ImPlot](https://github.com/epezent/implot). Builds run on macOS (Apple Silicon and Intel), Linux x86_64, and Windows x86_64.
 
+## Download
+
+Grab the latest release directly:
+
+- **macOS** — [MMStock.dmg](https://github.com/luthebao/mm-vnstock/releases/latest/download/MMStock.dmg)
+- **Windows** — [MMStock-Windows.zip](https://github.com/luthebao/mm-vnstock/releases/latest/download/MMStock-Windows.zip)
+
+These links always serve the newest published build.
+
 ## What it does
 
 - **Charts** — candlestick, line, and Heiken Ashi, across multiple timeframes (1m, 5m, 15m, 30m, 1H, 4H, 8H, 1D, 1W, 1M).
