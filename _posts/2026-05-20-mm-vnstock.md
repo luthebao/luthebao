@@ -9,12 +9,7 @@ The app is written in [Odin](https://odin-lang.org/) on top of [Sokol](https://g
 
 ## Download
 
-Grab the latest release directly:
-
-- **macOS** — [MMStock.dmg](https://github.com/luthebao/mm-vnstock/releases/latest/download/MMStock.dmg)
-- **Windows** — [MMStock-Windows.zip](https://github.com/luthebao/mm-vnstock/releases/latest/download/MMStock-Windows.zip)
-
-These links always serve the newest published build.
+[**Download MMStock**](https://github.com/luthebao/luthebao/releases/tag/mmstock) — macOS and Windows builds available on the release page.
 
 ## What it does
 
