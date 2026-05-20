@@ -5,8 +5,5 @@ show_downloads: false
 
 # Exclude data/tool files from the published site
 exclude:
-  - vpthelper.txt
-  - vptdata.json
   - vpt/
-  - regapple/
   - README.md
