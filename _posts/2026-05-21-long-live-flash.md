@@ -7,13 +7,11 @@ date: 2026-05-21
 
 Desktop builds and the RTMP native messaging host are published on the [`llflash` release](https://github.com/luthebao/luthebao/releases/tag/llflash). Questions, bug reports, and feature requests go through the [luthebao discussions tab](https://github.com/luthebao/luthebao/discussions) — there's no public issue tracker.
 
-## Try it in the browser
+## Setup in three steps
 
-The fastest way to see Llflash run is the web demo — no install required:
-
-> 🎮 [**beyonderluu.com/demo/**](https://beyonderluu.com/demo/)
-
-Click **Select File** and load any `.swf` you have on disk. The runtime is a WebAssembly module that loads straight into the page.
+1. **Install the browser extension.** *Coming soon* — the Chrome Web Store / Firefox Add-ons listing isn't published yet. Until then, you can side-load the unpacked extension from the [release page](https://github.com/luthebao/luthebao/releases/tag/llflash).
+2. **Install the RTMP native messaging host** with the one-liner for your OS (see below). This is the small out-of-process helper that lets SWFs reach `rtmp://` servers.
+3. **Visit any page that uses Flash.** The extension picks up `.swf` embeds automatically and routes RTMP traffic through the host you just installed — no per-site configuration.
 
 ## Install the RTMP native messaging host
 
