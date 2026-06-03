@@ -11,6 +11,9 @@ github_username: luthebao
 social_site: https://beyonderluu.com
 
 # --- Build ---
+# Clean directory URLs (no .html): /YYYY/MM/DD/title/
+permalink: pretty
+
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
