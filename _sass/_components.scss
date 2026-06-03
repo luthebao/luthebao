@@ -1,0 +1,80 @@
+// Reusable bits: icon buttons, theme toggle, tag chips, ghost buttons.
+
+.icon-btn {
+  --size: 38px;
+  width: var(--size);
+  height: var(--size);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+.icon-btn:hover { color: var(--fg-strong); background: var(--surface-2); border-color: var(--border); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+// Theme toggle: cross-fade sun/moon, no layout shift
+.theme-toggle { position: relative; }
+.theme-toggle__icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theme-toggle .icon-sun  { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+.theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+:root[data-theme="dark"] .theme-toggle .icon-sun  { opacity: 1; transform: rotate(0) scale(1); }
+:root[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun  { opacity: 1; transform: rotate(0) scale(1); }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+}
+
+// Tag chips
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3ch;
+  padding: 0.18rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.tag::before { content: "#"; color: var(--accent); opacity: 0.85; }
+.tag--lang { text-transform: uppercase; letter-spacing: 0.06em; }
+.tag--lang::before { content: ""; }
+
+// Ghost button (back links, prev/next)
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: color 0.16s ease, gap 0.16s ease;
+}
+.ghost-btn:hover { color: var(--accent); }
+.ghost-btn--back:hover { gap: 0.9ch; }
+
+// Inline link affordance used inside prose-free regions
+.text-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 0.16s ease;
+}
+.text-link:hover { text-decoration-color: var(--accent); }

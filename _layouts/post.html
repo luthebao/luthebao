@@ -1,0 +1,39 @@
+---
+layout: base
+---
+{% assign minutes = page.content | number_of_words | plus: 199 | divided_by: 200 %}
+<article class="post wrap">
+  <header class="post-header">
+    <a class="ghost-btn ghost-btn--back post-header__back" href="{{ '/' | relative_url }}#posts">
+      <span aria-hidden="true">←</span> all posts
+    </a>
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+      <span class="post-meta__dot" aria-hidden="true"></span>
+      <span>{{ minutes }} min read</span>
+      {% if page.tags.size > 0 or page.lang %}
+      <span class="post-meta__dot" aria-hidden="true"></span>
+      <span class="tags">
+        {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+        {% if page.lang %}<span class="tag tag--lang">{{ page.lang }}</span>{% endif %}
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-title-rule" aria-hidden="true"></div>
+
+  <div class="post-body prose">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    {% include post-nav.html %}
+    <div class="post-footer__home">
+      <a class="ghost-btn ghost-btn--back" href="{{ '/' | relative_url }}#posts">
+        <span aria-hidden="true">←</span> back to all posts
+      </a>
+    </div>
+  </footer>
+</article>

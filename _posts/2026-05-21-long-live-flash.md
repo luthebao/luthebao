@@ -1,6 +1,11 @@
 ---
 title: "Llflash — A Flash Player emulator in Rust, with a one-line RTMP host install"
 date: 2026-05-21
+tags: [rust, flash, wasm]
+summary: >-
+  A Rust Flash Player emulator — a Ruffle fork that adds RTMP support through a
+  one-line native-messaging host, bringing legacy streaming and multiplayer SWFs
+  back to life.
 ---
 
 **Llflash** is an Adobe Flash Player emulator written in [Rust](https://www.rust-lang.org/), targeting both desktop and the web via WebAssembly. It's a fork of [Ruffle](https://ruffle.rs/) with one headline addition: **RTMP support**, delivered through a small native messaging host that pairs with the browser extension. The rest of the runtime tracks upstream — ActionScript 1, 2, and 3 are all supported, enough to bring most legacy `.swf` content back to life: games, animations, learning tools, and the multiplayer-streaming SWFs that vanilla Ruffle can't reach because browsers don't expose raw TCP.

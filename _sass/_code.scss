@@ -1,0 +1,117 @@
+// Code: inline code, fenced blocks, and the JS-enhanced header bar.
+
+// Inline code (not inside a fenced block)
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+.prose :not(pre) > code {
+  padding: 0.12em 0.4em;
+  background: var(--code-inline);
+  border: 1px solid var(--code-border);
+  border-radius: 5px;
+  color: var(--fg-strong);
+  word-break: break-word;
+}
+.prose a code { color: inherit; }
+
+// Fenced blocks. Rouge emits:
+//   div.language-xxx.highlighter-rouge > div.highlight > pre.highlight > code
+// main.js wraps each in .code-block and prepends .code-block__bar. Until JS runs
+// (or if it never does), the raw .highlighter-rouge wrapper carries the chrome.
+.prose .highlighter-rouge {
+  margin: 1.65rem 0;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.prose .highlighter-rouge .highlight { margin: 0; background: transparent; }
+.prose .highlighter-rouge pre.highlight,
+.prose .highlighter-rouge pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  background: transparent;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  -webkit-overflow-scrolling: touch;
+  tab-size: 2;
+}
+.prose .highlighter-rouge pre code {
+  background: none; border: 0; padding: 0;
+  font-size: inherit; color: var(--hl-base, var(--fg));
+}
+
+// Once JS wraps it, .code-block owns the chrome; neutralize the inner wrapper.
+.code-block {
+  margin: 1.65rem 0;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.code-block__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0.5rem 0.4rem 0.95rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--code-border);
+}
+.code-block__lang {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+}
+.code-block__lang::before { content: "›"; color: var(--accent); margin-right: 0.6ch; }
+
+.code-block__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45ch;
+  padding: 0.28rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.code-block__copy:hover { color: var(--fg-strong); background: var(--bg-subtle); border-color: var(--border); }
+.code-block__copy svg { width: 13px; height: 13px; }
+.code-block__copy .copy-label { line-height: 1; }
+.code-block__copy[data-copied="true"] { color: var(--accent); }
+.code-block__copy[data-copied="true"]:hover { border-color: var(--accent-line); }
+.code-block__copy .icon-check { display: none; }
+.code-block__copy[data-copied="true"] .icon-copy { display: none; }
+.code-block__copy[data-copied="true"] .icon-check { display: inline-flex; }
+
+.code-block .highlighter-rouge {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+
+// Stand-alone <pre> that didn't go through Rouge (rare) — keep it tidy.
+.prose > pre {
+  margin: 1.65rem 0;
+  padding: 1rem 1.15rem;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  font-size: 0.84rem;
+  line-height: 1.65;
+}

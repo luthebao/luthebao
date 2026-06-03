@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f7f9">
+
+<script>
+  /* Apply the saved theme before first paint to avoid a flash. With no saved
+     choice, the CSS prefers-color-scheme fallback takes over. */
+  (function () {
+    var d = document.documentElement, saved;
+    try { saved = localStorage.getItem("theme"); } catch (e) {}
+    var dark = saved === "dark" ||
+      (saved !== "light" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    if (saved === "dark" || saved === "light") d.setAttribute("data-theme", saved);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", dark ? "#0e1116" : "#f6f7f9");
+  })();
+</script>
+
+{% seo %}
+{% feed_meta %}
+
+<link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+
+<link rel="preload" href="{{ '/assets/fonts/ibm-plex-sans/latin-400-normal.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/ibm-plex-mono/latin-400-normal.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/ibm-plex-mono/latin-600-normal.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<script defer src="{{ '/assets/js/main.js' | relative_url }}"></script>

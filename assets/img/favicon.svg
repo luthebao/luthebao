@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="luthebao">
+  <rect width="32" height="32" rx="7" fill="#0e1116"/>
+  <path d="M8.5 11 L13.5 16 L8.5 21" fill="none" stroke="#ff9e4d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="15.2" y="19.4" width="8.3" height="2.6" rx="1.3" fill="#e6e9ee"/>
+</svg>

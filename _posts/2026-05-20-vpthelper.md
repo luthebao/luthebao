@@ -2,6 +2,10 @@
 title: "VPT Helper — Phần mềm hỗ trợ chơi game Vua Pháp Thuật"
 date: 2016-05-20
 lang: vi
+tags: [windows, game, auto]
+summary: >-
+  Phần mềm hỗ trợ tự động (auto) cho game Vua Pháp Thuật trên Windows — yêu cầu
+  hệ thống, hướng dẫn cài đặt, và tổng hợp các chức năng chính.
 ---
 
 **VPT Helper** là phần mềm hỗ trợ tự động (auto) dành cho game **Vua Pháp Thuật**, do mình phát triển và cập nhật trong nhiều năm. Bài viết này tổng hợp lại các thông tin cơ bản về phần mềm: yêu cầu hệ thống, hướng dẫn cài đặt, và các chức năng chính hiện có.

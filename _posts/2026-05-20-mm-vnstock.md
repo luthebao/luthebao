@@ -1,6 +1,10 @@
 ---
 title: "MMStock — Native terminal for the Vietnamese stock-futures market"
 date: 2026-05-20
+tags: [odin, trading, desktop]
+summary: >-
+  A native desktop terminal for the Vietnamese stock-futures market, written in
+  Odin — charts, indicators, and a real-time VPS feed with no backend in between.
 ---
 
 **MMStock** is a native desktop terminal for the Vietnamese stock-futures market. It connects directly to the VPS data feed (`web7.vps.com.vn`) — no separate backend service in between — and renders charts, indicators, and a real-time price stream entirely on the client.
