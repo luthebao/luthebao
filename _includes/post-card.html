@@ -1,0 +1,22 @@
+{% assign p = include.post %}
+{% assign words = p.content | number_of_words %}
+{% assign minutes = words | plus: 199 | divided_by: 200 %}
+<li class="post-card">
+  <span class="post-card__date">{{ p.date | date: "%Y-%m-%d" }}</span>
+  <div class="post-card__body">
+    <h3 class="post-card__title">
+      <a href="{{ p.url | relative_url }}">{{ p.title }}<span class="post-card__arrow" aria-hidden="true">→</span></a>
+    </h3>
+    {% assign blurb = p.summary | default: p.excerpt | strip_html | normalize_whitespace %}
+    {% if blurb != "" %}<p class="post-card__excerpt">{{ blurb | truncate: 170 }}</p>{% endif %}
+    <div class="post-card__meta">
+      {% if p.tags.size > 0 or p.lang %}
+      <span class="tags">
+        {% for tag in p.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+        {% if p.lang %}<span class="tag tag--lang">{{ p.lang }}</span>{% endif %}
+      </span>
+      {% endif %}
+      <span class="post-card__readtime">{{ minutes }} min read</span>
+    </div>
+  </div>
+</li>

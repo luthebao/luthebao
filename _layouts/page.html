@@ -1,0 +1,17 @@
+---
+layout: base
+---
+<article class="post wrap">
+  <header class="post-header">
+    <a class="ghost-btn ghost-btn--back post-header__back" href="{{ '/' | relative_url }}">
+      <span aria-hidden="true">←</span> home
+    </a>
+    <h1 class="post-title">{{ page.title }}</h1>
+  </header>
+
+  <div class="post-title-rule" aria-hidden="true"></div>
+
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

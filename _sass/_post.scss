@@ -1,0 +1,225 @@
+// Single post: header chrome + long-form article typography.
+
+.post { padding-block: clamp(2rem, 5vw, 3.25rem) 0; }
+
+.post-header {
+  max-width: var(--measure);
+  margin-inline: auto;
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+}
+.post-header__back { margin-bottom: 1.5rem; }
+
+.post-title {
+  margin: 0;
+  font-size: clamp(1.85rem, calc(1.3rem + 2.6vw), 2.85rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.post-meta {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.post-meta__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); }
+.post-meta time { color: var(--fg); }
+.post-meta .tags { margin-left: 0.1rem; }
+
+.post-title-rule {
+  max-width: var(--measure);
+  margin: clamp(1.5rem, 4vw, 2.25rem) auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0 2.5rem, var(--border) 2.5rem 100%);
+}
+
+// ---------- Prose ----------
+.prose {
+  max-width: var(--measure);
+  margin-inline: auto;
+  color: var(--fg);
+}
+.prose > * + * { margin-top: 1.15rem; }
+.prose > h2 + *, .prose > h3 + *, .prose > h4 + * { margin-top: 0.85rem; }
+
+.prose p { margin: 0; }
+
+.prose h2, .prose h3, .prose h4 {
+  position: relative;
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}
+.prose h2 {
+  margin-top: 2.6rem;
+  font-size: clamp(1.35rem, calc(1.15rem + 0.9vw), 1.7rem);
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+.prose h3 { margin-top: 2.1rem; font-size: clamp(1.15rem, calc(1.05rem + 0.5vw), 1.32rem); }
+.prose h4 { margin-top: 1.7rem; font-size: 1.05rem; color: var(--fg); }
+
+.heading-anchor {
+  position: absolute;
+  left: -1.25em;
+  top: 0;
+  width: 1.25em;
+  display: inline-flex;
+  justify-content: center;
+  color: var(--accent);
+  opacity: 0;
+  font-weight: 400;
+  transition: opacity 0.15s ease;
+}
+.prose h2:hover .heading-anchor,
+.prose h3:hover .heading-anchor,
+.prose h4:hover .heading-anchor,
+.heading-anchor:focus { opacity: 1; }
+@media (max-width: 52rem) { .heading-anchor { display: none; } }
+
+// Links inside prose
+.prose a:not(.heading-anchor) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 0.16s ease, color 0.16s ease;
+}
+.prose a:not(.heading-anchor):hover { color: var(--accent-strong); text-decoration-color: var(--accent); }
+
+// Lists
+.prose ul, .prose ol { margin: 0; padding-left: 1.5rem; }
+.prose li { margin-top: 0.4rem; }
+.prose li > ul, .prose li > ol { margin-top: 0.4rem; }
+.prose ul > li::marker { color: var(--accent); }
+.prose ol > li::marker { color: var(--muted); font-family: var(--font-mono); font-size: 0.9em; }
+
+// Blockquote
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.4rem 0 0.4rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(90deg, var(--accent-soft), transparent 80%);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--fg);
+}
+.prose blockquote > * + * { margin-top: 0.6rem; }
+.prose blockquote p:first-child { margin-top: 0; }
+
+// Horizontal rule → centered dotted motif
+.prose hr {
+  height: auto;
+  background: none;
+  margin: 2.5rem auto;
+  width: 6rem;
+  border: 0;
+  text-align: center;
+  overflow: visible;
+}
+.prose hr::before {
+  content: "• • •";
+  color: var(--border-strong);
+  letter-spacing: 0.4em;
+  font-size: 0.7rem;
+}
+
+// Images / figures
+.prose img {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-inline: auto;
+}
+.prose figure { margin: 1.5rem 0; }
+.prose figcaption {
+  margin-top: 0.6rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+
+// Tables (wrapped in .table-scroll by JS for small screens)
+.table-scroll {
+  margin: 1.6rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.prose thead th {
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.prose th, .prose td {
+  text-align: left;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.prose tbody tr:last-child td { border-bottom: 0; }
+.prose tbody tr:hover { background: var(--surface-2); }
+.prose td code { white-space: nowrap; }
+
+kbd {
+  font-size: 0.8em;
+  padding: 0.15em 0.45em;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  color: var(--fg-strong);
+}
+
+// ---------- Post footer: prev / next ----------
+.post-footer {
+  max-width: var(--measure);
+  margin: clamp(3rem, 7vw, 4.5rem) auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.post-nav__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+}
+.post-nav__item:hover { border-color: var(--accent-line); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.post-nav__item--next { text-align: right; }
+.post-nav__dir {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--faint);
+}
+.post-nav__title { font-weight: 600; color: var(--fg-strong); line-height: 1.35; }
+.post-nav__item:hover .post-nav__title { color: var(--accent); }
+
+.post-footer__home {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 38rem) {
+  .post-nav { grid-template-columns: 1fr; }
+  .post-nav__item--next { text-align: left; }
+}

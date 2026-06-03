@@ -1,17 +1,46 @@
 title: luthebao
-description: Personal site of luthebao
-theme: jekyll-theme-architect
-show_downloads: false
+tagline: Coding & software write-ups
+description: >-
+  Personal site of luthebao (BaoLT) — native apps, developer tools, and the
+  occasional Flash emulator. Write-ups on the software I build.
+url: https://www.beyonderluu.com
+lang: en
+author: BaoLT
 
-# Apply the theme's default layout to posts so they render with sidebar + styling
+github_username: luthebao
+social_site: https://beyonderluu.com
+
+# --- Build ---
+# Clean directory URLs (no .html): /YYYY/MM/DD/title/
+permalink: pretty
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+sass:
+  style: compressed
+
+# Posts render with the post layout; index.md and about.md set their own.
 defaults:
   - scope:
       path: ""
       type: posts
     values:
-      layout: default
+      layout: post
 
-# Keep raw data/tool files out of the published site
+# jekyll-feed output path
+feed:
+  path: feed.xml
+
+# Keep tooling, raw data, and internal docs out of the published site.
 exclude:
   - vpt/
   - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - docs/
+  - .jekyll-cache/
+  - node_modules/

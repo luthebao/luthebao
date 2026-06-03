@@ -1,0 +1,90 @@
+// Design tokens. Light palette lives on :root; dark palette is applied either
+// explicitly ([data-theme="dark"], set by the toggle) or, for no-JS visitors,
+// via prefers-color-scheme — unless they've explicitly opted into light.
+
+@mixin dark-tokens {
+  --bg:            #0e1116;
+  --bg-subtle:     #131922;
+  --surface:       #161c25;
+  --surface-2:     #1c2530;
+  --fg:            #d4dbe4;
+  --fg-strong:     #f1f4f8;
+  --muted:         #8b96a5;
+  --faint:         #838e9d; // AA: >=4.6:1 on all dark surfaces, still below --muted
+
+  --border:        #232c38;
+  --border-strong: #313b49;
+
+  --accent:         #ff9e4d;
+  --accent-strong:  #ffb672;
+  --accent-bright:  #ffac5c;
+  --accent-soft:    rgba(255, 158, 77, 0.14);
+  --accent-line:    rgba(255, 158, 77, 0.28);
+  --accent-ring:    rgba(255, 158, 77, 0.45);
+  --accent-contrast:#1a1205;
+
+  --code-bg:     #11171f;
+  --code-inline: #1a212b;
+  --code-border: #232c38;
+  --selection:   rgba(255, 158, 77, 0.22);
+
+  --grid-dot:    rgba(255, 255, 255, 0.045);
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow:      0 8px 30px rgba(0, 0, 0, 0.45);
+  --header-bg:   rgba(14, 17, 22, 0.72);
+
+  color-scheme: dark;
+}
+
+:root {
+  // ---- color: light ----
+  --bg:            #f6f7f9;
+  --bg-subtle:     #eef1f5;
+  --surface:       #ffffff;
+  --surface-2:     #f1f3f7;
+  --fg:            #1d232b;
+  --fg-strong:     #0f141a;
+  --muted:         #59636f;
+  --faint:         #646e7a; // AA: >=4.66:1 on all light surfaces, still below --muted
+
+  --border:        #e3e7ec;
+  --border-strong: #cfd6df;
+
+  --accent:         #c2410c;
+  --accent-strong:  #9a3412;
+  --accent-bright:  #ea580c;
+  --accent-soft:    rgba(234, 88, 12, 0.10);
+  --accent-line:    rgba(234, 88, 12, 0.22);
+  --accent-ring:    rgba(234, 88, 12, 0.40);
+  --accent-contrast:#ffffff;
+
+  --code-bg:     #f7f8fa;
+  --code-inline: #eef1f4;
+  --code-border: #e3e7ec;
+  --selection:   rgba(234, 88, 12, 0.16);
+
+  --grid-dot:    rgba(15, 20, 26, 0.05);
+  --shadow-sm:   0 1px 2px rgba(15, 20, 26, 0.06);
+  --shadow:      0 12px 34px rgba(15, 20, 26, 0.10);
+  --header-bg:   rgba(246, 247, 249, 0.72);
+
+  color-scheme: light;
+
+  // ---- type ----
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  // ---- metrics ----
+  --wrap:     66rem;   // header / footer / hero outer width
+  --measure:  44rem;   // reading column
+  --radius:   14px;
+  --radius-sm: 10px;
+  --radius-xs: 7px;
+  --header-h: 60px;
+}
+
+:root[data-theme="dark"] { @include dark-tokens; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { @include dark-tokens; }
+}

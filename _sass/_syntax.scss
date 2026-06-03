@@ -1,0 +1,86 @@
+// Rouge syntax highlighting — token palette as CSS vars so it tracks the theme.
+
+@mixin syntax-dark {
+  --hl-base:        #d4dbe4;
+  --hl-comment:     #6b7480;
+  --hl-keyword:     #ff7eb6;
+  --hl-string:      #8ce99a;
+  --hl-number:      #74c0fc;
+  --hl-function:    #74c0fc;
+  --hl-builtin:     #66d9e8;
+  --hl-variable:    #ffc078;
+  --hl-class:       #66d9e8;
+  --hl-tag:         #74c0fc;
+  --hl-attr:        #ffa94d;
+  --hl-operator:    #9aa4b2;
+  --hl-punct:       #98a2b0;
+  --hl-meta:        #868e96;
+  --hl-regex:       #66d9e8;
+  --hl-deleted-fg:  #ff8787;
+  --hl-deleted-bg:  rgba(255, 135, 135, 0.10);
+  --hl-inserted-fg: #8ce99a;
+  --hl-inserted-bg: rgba(140, 233, 154, 0.10);
+}
+
+:root {
+  --hl-base:        #1d232b;
+  --hl-comment:     #8a94a1;
+  --hl-keyword:     #d6336c;
+  --hl-string:      #2b8a3e;
+  --hl-number:      #1c7ed6;
+  --hl-function:    #1971c2;
+  --hl-builtin:     #0c8599;
+  --hl-variable:    #b5500f;
+  --hl-class:       #0b7285;
+  --hl-tag:         #1971c2;
+  --hl-attr:        #e8590c;
+  --hl-operator:    #5f6b7a;
+  --hl-punct:       #59636f;
+  --hl-meta:        #868e96;
+  --hl-regex:       #0c8599;
+  --hl-deleted-fg:  #c92a2a;
+  --hl-deleted-bg:  rgba(201, 42, 42, 0.08);
+  --hl-inserted-fg: #2b8a3e;
+  --hl-inserted-bg: rgba(43, 138, 62, 0.08);
+}
+:root[data-theme="dark"] { @include syntax-dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { @include syntax-dark; }
+}
+
+.highlight, .highlighter-rouge .highlight { color: var(--hl-base); }
+.highlight {
+  .c, .ch, .cd, .cm, .cp, .cpf, .c1, .cs { color: var(--hl-comment); font-style: italic; }
+
+  .k, .kc, .kd, .kn, .kp, .kr, .kv { color: var(--hl-keyword); }
+  .kt { color: var(--hl-class); }
+
+  .o, .ow { color: var(--hl-operator); }
+  .p, .pi { color: var(--hl-punct); }
+
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .sh, .sx, .s1 { color: var(--hl-string); }
+  .se, .si { color: var(--hl-builtin); }
+  .sr { color: var(--hl-regex); }
+  .ss { color: var(--hl-attr); }
+
+  .m, .mb, .mf, .mh, .mi, .mo, .mx, .il { color: var(--hl-number); }
+  .no, .kc-true, .kc-false { color: var(--hl-builtin); }
+
+  .nf, .fm { color: var(--hl-function); }
+  .nb, .bp { color: var(--hl-builtin); }
+  .nc, .nn, .ne { color: var(--hl-class); }
+  .nt { color: var(--hl-tag); }
+  .na { color: var(--hl-attr); }
+  .nv, .vc, .vg, .vi, .nv-instance { color: var(--hl-variable); }
+  .nd, .nl, .py { color: var(--hl-meta); }
+  .ni, .nx { color: var(--hl-base); }
+
+  .gd { color: var(--hl-deleted-fg); background: var(--hl-deleted-bg); }
+  .gi { color: var(--hl-inserted-fg); background: var(--hl-inserted-bg); }
+  .gh, .gu { color: var(--hl-function); font-weight: 600; }
+  .ge { font-style: italic; }
+  .gs { font-weight: 600; }
+  .gp { color: var(--hl-comment); }
+  .err { color: var(--hl-deleted-fg); }
+  .w { color: transparent; }
+}
