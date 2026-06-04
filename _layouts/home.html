@@ -22,10 +22,12 @@ layout: base
     </div>
   </section>
 
+  {% comment %} Drafts (front matter `draft: true`) are unlisted: hidden here but still reachable by URL. {% endcomment %}
+  {% assign visible_posts = site.posts | where_exp: "post", "post.draft != true" %}
   <section class="posts wrap" id="posts">
-    <h2 class="posts__heading">Posts <span class="posts__count">{{ site.posts | size }}</span></h2>
+    <h2 class="posts__heading">Posts <span class="posts__count">{{ visible_posts | size }}</span></h2>
     <ol class="post-list">
-      {% for post in site.posts %}{% include post-card.html post=post %}{% endfor %}
+      {% for post in visible_posts %}{% include post-card.html post=post %}{% endfor %}
     </ol>
   </section>
 

@@ -55,6 +55,13 @@
 .tag::before { content: "#"; color: var(--accent); opacity: 0.85; }
 .tag--lang { text-transform: uppercase; letter-spacing: 0.06em; }
 .tag--lang::before { content: ""; }
+.tag--draft {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tag--draft::before { content: "●"; font-size: 0.6em; }
 
 // Ghost button (back links, prev/next)
 .ghost-btn {

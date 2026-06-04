@@ -1,0 +1,26 @@
+---
+# Custom override of jekyll-sitemap so that posts marked `draft: true` are
+# excluded (they're unlisted, so they shouldn't be advertised to crawlers).
+# jekyll-sitemap sees this source file and skips generating its own.
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% comment %} Posts: drop drafts and anything opting out with `sitemap: false`. {% endcomment %}
+  {% assign posts = site.posts | where_exp: "post", "post.draft != true" | where_exp: "post", "post.sitemap != false" %}
+  {% for post in posts %}
+  <url>
+    <loc>{{ post.url | replace: '/index.html', '/' | absolute_url | xml_escape }}</loc>
+    <lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod>
+  </url>
+  {% endfor %}
+  {% comment %} Regular pages (index, about, …); skip 404 and `sitemap: false`. {% endcomment %}
+  {% assign pages = site.html_pages | where_exp: "page", "page.sitemap != false" | where_exp: "page", "page.url != '/404.html'" %}
+  {% for page in pages %}
+  <url>
+    <loc>{{ page.url | replace: '/index.html', '/' | absolute_url | xml_escape }}</loc>
+    {% if page.last_modified_at %}<lastmod>{{ page.last_modified_at | date_to_xmlschema }}</lastmod>{% endif %}
+  </url>
+  {% endfor %}
+</urlset>

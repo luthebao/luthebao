@@ -1,18 +1,35 @@
-{% if page.previous or page.next %}
+{% comment %}
+  Compute neighbours over the visible (non-draft) posts only, instead of using
+  Jekyll's built-in page.previous / page.next which walk *all* posts — otherwise
+  a draft sitting between two live posts would leak into their nav.
+  site.posts is newest-first, so the older post is the next index, the newer the
+  previous index. A draft page isn't in the list, so it simply gets no nav.
+{% endcomment %}
+{% assign visible_posts = site.posts | where_exp: "p", "p.draft != true" %}
+{% assign prev_post = nil %}
+{% assign next_post = nil %}
+{% for p in visible_posts %}
+  {% if p.url == page.url %}
+    {% unless forloop.last %}{% assign prev_post = visible_posts[forloop.index] %}{% endunless %}
+    {% unless forloop.first %}{% assign newer_idx = forloop.index0 | minus: 1 %}{% assign next_post = visible_posts[newer_idx] %}{% endunless %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if prev_post or next_post %}
 <nav class="post-nav" aria-label="More posts">
-  {% if page.previous %}
-  <a class="post-nav__item post-nav__item--prev" href="{{ page.previous.url | relative_url }}" rel="prev">
+  {% if prev_post %}
+  <a class="post-nav__item post-nav__item--prev" href="{{ prev_post.url | relative_url }}" rel="prev">
     <span class="post-nav__dir">← Previous</span>
-    <span class="post-nav__title">{{ page.previous.title }}</span>
+    <span class="post-nav__title">{{ prev_post.title }}</span>
   </a>
   {% else %}
   <span aria-hidden="true"></span>
   {% endif %}
 
-  {% if page.next %}
-  <a class="post-nav__item post-nav__item--next" href="{{ page.next.url | relative_url }}" rel="next">
+  {% if next_post %}
+  <a class="post-nav__item post-nav__item--next" href="{{ next_post.url | relative_url }}" rel="next">
     <span class="post-nav__dir">Next →</span>
-    <span class="post-nav__title">{{ page.next.title }}</span>
+    <span class="post-nav__title">{{ next_post.title }}</span>
   </a>
   {% else %}
   <span aria-hidden="true"></span>

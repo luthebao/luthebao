@@ -12,6 +12,10 @@ layout: base
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
       <span class="post-meta__dot" aria-hidden="true"></span>
       <span>{{ minutes }} min read</span>
+      {% if page.draft %}
+      <span class="post-meta__dot" aria-hidden="true"></span>
+      <span class="tag tag--draft">draft — unlisted</span>
+      {% endif %}
       {% if page.tags.size > 0 or page.lang %}
       <span class="post-meta__dot" aria-hidden="true"></span>
       <span class="tags">
