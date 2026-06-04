@@ -11,6 +11,11 @@ summary: >-
 
 The app is written in [Odin](https://odin-lang.org/) on top of [Sokol](https://github.com/floooh/sokol), [Dear ImGui](https://github.com/ocornut/imgui), and [ImPlot](https://github.com/epezent/implot). Builds run on macOS (Apple Silicon and Intel), Linux x86_64, and Windows x86_64.
 
+<figure>
+  <img src="{{ '/assets/img/posts/mmstock/terminal.png' | relative_url }}" alt="MMStock terminal showing two side-by-side chart panels with candlesticks, VPVR volume-by-price overlays, BLT-MACD and BLT-RSI indicator subpanels, and a multi-timeframe table">
+  <figcaption>MMStock — two chart panels with VPVR overlays and the BLT-MACD/RSI indicators</figcaption>
+</figure>
+
 ## Download
 
 [**Download MMStock**](https://github.com/luthebao/luthebao/releases/tag/mmstock) — macOS and Windows builds available on the release page.
