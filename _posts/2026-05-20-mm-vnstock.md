@@ -15,6 +15,20 @@ The app is written in [Odin](https://odin-lang.org/) on top of [Sokol](https://g
 
 [**Download MMStock**](https://github.com/luthebao/luthebao/releases/tag/mmstock) — macOS and Windows builds available on the release page.
 
+### One-liner install
+
+**macOS / Linux:**
+
+```sh
+curl -fsSL https://github.com/luthebao/luthebao/releases/download/mmstock/install.sh | sh
+```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://github.com/luthebao/luthebao/releases/download/mmstock/install.ps1 | iex
+```
+
 ## What it does
 
 - **Charts** — candlestick, line, and Heiken Ashi, across multiple timeframes (1m, 5m, 15m, 30m, 1H, 4H, 8H, 1D, 1W, 1M).
