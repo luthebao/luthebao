@@ -9,7 +9,7 @@ summary: >-
   hệ thống, hướng dẫn cài đặt, và tổng hợp các chức năng chính.
 ---
 
-**VPT Helper** là phần mềm hỗ trợ tự động (auto) dành cho game **Vua Pháp Thuật**, do mình phát triển và cập nhật trong nhiều năm. Bài viết này tổng hợp lại các thông tin cơ bản về phần mềm: yêu cầu hệ thống, hướng dẫn cài đặt, và các chức năng chính hiện có.
+**VPT Helper** là phần mềm hỗ trợ tự động (auto) dành cho game **Vua Pháp Thuật**, do tôi phát triển và duy trì trong nhiều năm. Bài viết tổng hợp các thông tin cơ bản về phần mềm: yêu cầu hệ thống, hướng dẫn cài đặt và các chức năng chính.
 
 ## Yêu cầu hệ thống
 
@@ -60,4 +60,4 @@ Toàn bộ thao tác liên quan đến key đều được xử lý trên trang 
 
 Phần mềm được cập nhật thường xuyên. Những bạn đã sử dụng VPT Helper trước đây sẽ không lạ gì với phần lớn chức năng. Người dùng mới nên xem các video hướng dẫn để làm quen, đặc biệt là với **Auto Bắt Pet** và **Combo XT**.
 
-Chúc anh em chơi game vui vẻ!
+Chúc các bạn có trải nghiệm chơi game thuận lợi.

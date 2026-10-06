@@ -19,7 +19,7 @@ write up the interesting ones here.
 - **Keeping old things alive.** Legacy formats and protocols are worth saving;
   sometimes that means forking a runtime and adding the missing piece.
 
-A few recent projects: an RTMP-capable Flash Player emulator, a native terminal
+A few recent projects: an RTMP-capable Flash Player emulator, a self-hosted Go server for a legacy Flash MMO, a native terminal
 for the Vietnamese stock-futures market, and a multi-purpose macOS CLI. They all
 have write-ups on the [home page]({{ '/' | relative_url }}#posts).
 

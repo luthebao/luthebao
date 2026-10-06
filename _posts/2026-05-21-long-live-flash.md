@@ -10,9 +10,9 @@ summary: >-
 
 **Llflash** is an Adobe Flash Player emulator written in [Rust](https://www.rust-lang.org/), targeting both desktop and the web via WebAssembly. It's a fork of [Ruffle](https://ruffle.rs/) with one headline addition: **RTMP support**, delivered through a small native messaging host that pairs with the browser extension. The rest of the runtime tracks upstream — ActionScript 1, 2, and 3 are all supported, enough to bring most legacy `.swf` content back to life: games, animations, learning tools, and the multiplayer-streaming SWFs that vanilla Ruffle can't reach because browsers don't expose raw TCP.
 
-Desktop builds and the RTMP native messaging host are published on the [`llflash` release](https://github.com/luthebao/luthebao/releases/tag/llflash). Questions, bug reports, and feature requests go through the [luthebao discussions tab](https://github.com/luthebao/luthebao/discussions) — there's no public issue tracker.
+Desktop builds and the RTMP native messaging host are published on the [`llflash` release](https://github.com/luthebao/luthebao/releases/tag/llflash). Questions, bug reports, and feature requests are handled through the [luthebao discussions tab](https://github.com/luthebao/luthebao/discussions); there is no public issue tracker.
 
-## Setup in three steps
+## Setup
 
 1. **Install the browser extension.** *Coming soon* — the Chrome Web Store / Firefox Add-ons listing isn't published yet. Until then, you can side-load the unpacked extension from the [release page](https://github.com/luthebao/luthebao/releases/tag/llflash).
 2. **Install the RTMP native messaging host** with the one-liner for your OS (see below). This is the small out-of-process helper that lets SWFs reach `rtmp://` servers.
@@ -22,7 +22,7 @@ Desktop builds and the RTMP native messaging host are published on the [`llflash
 
 Llflash plays static SWFs entirely in the browser, but **RTMP-based content** (legacy live-streaming SWFs, multiplayer games that talk to `rtmp://` servers) needs an out-of-process helper — browsers can't open raw TCP sockets. The **RTMP native messaging host** is a small Rust binary the browser extension launches over Chrome / Firefox's native-messaging protocol. Once registered, RTMP traffic inside any SWF is routed through it transparently.
 
-Pick the line that matches your OS.
+Use the command that matches your operating system.
 
 ### macOS / Linux
 
@@ -45,7 +45,7 @@ In **PowerShell**:
 irm https://github.com/luthebao/luthebao/releases/download/llflash/rtmp-host-install.ps1 | iex
 ```
 
-Same behaviour as the bash version: pulls the latest zip, extracts to `%LOCALAPPDATA%\LongLiveFlash\rtmp-host\`, and registers the native-messaging manifest. To pass a browser argument, save the script first and run it locally:
+The PowerShell script behaves like the shell version: it downloads the latest zip, extracts to `%LOCALAPPDATA%\LongLiveFlash\rtmp-host\`, and registers the native-messaging manifest. To pass a browser argument, save the script first and run it locally:
 
 ```powershell
 $u = 'https://github.com/luthebao/luthebao/releases/download/llflash/rtmp-host-install.ps1'
@@ -53,11 +53,11 @@ iwr $u -OutFile rtmp-host-install.ps1
 PowerShell -ExecutionPolicy Bypass -File .\rtmp-host-install.ps1 all
 ```
 
-After install, restart your browser and reload the extension — the host appears under `chrome://extensions/` (or the Firefox equivalent) and RTMP-backed SWFs should connect straight away.
+After installation, restart the browser and reload the extension. The host then appears under `chrome://extensions/` (or the Firefox equivalent), and RTMP-backed SWFs should connect immediately.
 
 ### Environment overrides
 
-Both scripts honour the same overrides if you need to pin a specific release or change the install location:
+Both scripts support the same environment overrides for pinning a release or changing the installation directory:
 
 | Variable              | Default                                                                            |
 |-----------------------|------------------------------------------------------------------------------------|
@@ -73,17 +73,17 @@ Standalone desktop builds are listed on the [release page](https://github.com/lu
 - `llflash-rtmp-host-1.1.0-Linux-x64.tar.gz`
 - `llflash-rtmp-host-1.1.0-Windows-x64.zip`
 
-Each archive contains the host binary plus the install script for that platform — useful if you'd rather audit the script and run it offline instead of piping from `curl`.
+Each archive contains the host binary plus the install script for that platform — which lets you audit the script and run it offline instead of piping it from `curl`.
 
 ## Relationship to Ruffle
 
 Llflash is a fork of [Ruffle](https://github.com/ruffle-rs/ruffle), not a rewrite. The AVM1/AVM2 interpreters, the renderer, and the SWF parser are Ruffle's work — credit and thanks go to that project and its contributors. What this fork adds is the `rtmp://` path: the `llflash-rtmp-host` binary you just installed terminates the RTMP/RTMPE/RTMPT protocols outside the browser sandbox, and a thin bridge inside the wasm module forwards `NetConnection` / `NetStream` traffic to it. With that in place, SWFs that depend on Flash Media Server, Wowza, or any RTMP origin keep working — which is the gap that kept a noticeable slice of legacy Flash content from running under stock Ruffle.
 
-Everything else — including most ActionScript edge cases, codec coverage, and the desktop player — behaves like upstream Ruffle. Questions, bug reports, and feature requests live on the [luthebao discussions tab](https://github.com/luthebao/luthebao/discussions) (the source repo is private, so there's no public issue tracker)
+Everything else — including most ActionScript edge cases, codec coverage, and the desktop player — behaves like upstream Ruffle. Questions, bug reports, and feature requests live on the [luthebao discussions tab](https://github.com/luthebao/luthebao/discussions) (the source repository is private, so there is no public issue tracker).
 
 ## Privacy
 
-Long Live Flash respects user privacy. The browser extension searches website HTML for embedded Flash content without storing or transmitting browsing activity.
+Long Live Flash is designed with user privacy in mind. The browser extension searches website HTML for embedded Flash content without storing or transmitting browsing activity.
 
 Flash content may store data locally using browser LocalStorage APIs and make network requests to third-party servers, potentially transmitting personally identifiable or "fingerprintable" information. The `llflash-rtmp-host` extends that surface in one direction only: when a SWF opens an `rtmp://` connection, the host establishes a TCP connection to that origin on the SWF's behalf. Llflash itself does not inspect, log, or retain RTMP payloads — they pass through the host and back to the wasm runtime — but the destination server will see traffic from your IP address, exactly as it would have under the original Flash Player.
 
@@ -93,4 +93,4 @@ When errors occur, users can optionally submit crash reports through the [lutheb
 
 The project is a fork of [Ruffle](https://github.com/ruffle-rs/ruffle), which is open-source; LLflash's additions are distributed via the [release page](https://github.com/luthebao/luthebao/releases/tag/llflash) above.
 
-Users should exercise caution with untrusted content. LLflash isn't responsible for third-party privacy practices, and we encourage reviewing the applicable privacy policies and terms of the websites and services visited.
+Exercise caution with untrusted content. Llflash is not responsible for the privacy practices of third parties; review the privacy policies and terms of the websites and services you visit.
