@@ -3,16 +3,16 @@ title: "Reading the wire — collecting MCGame data from RPC logs with Llflash"
 date: 2026-10-17
 tags: [flash, rtmp, go, rust, preservation]
 summary: >-
-  How to run the MCGame Flash client in the Llflash desktop player, record every
-  RPC it sends and receives as a decoded transcript, and turn that transcript
-  into data you can query, alongside the server's own dispatcher logs.
+  How to run the Flash client in the Llflash desktop player, record every RPC it
+  sends and receives as a decoded transcript — against a local MCGame stack or
+  the official game — and turn that transcript into data you can query.
 ---
 
 [MCGame](/2026/10/06/mcgame/) only works if the server matches the Flash client exactly: the same RPC names, the same argument order, the same callback payloads. The decompiled client tells you what the code *could* do. A recording of the traffic tells you what it *actually* does: which RPCs fire when you click a button, in what order, with what values, and which callbacks the client waits for in return.
 
-This post shows how to get that recording with [Llflash](/2026/05/21/long-live-flash/), the Rust Flash Player emulator I maintain, and how to turn it into structured data. MCGame's own dispatcher logs cover the server side of the same conversation.
+This post shows how to get that recording with [Llflash](/2026/05/21/long-live-flash/), the Rust Flash Player emulator I maintain, and how to turn it into structured data. The same recording works against two servers: a local MCGame stack, and the official game while it is still online — which is the reference MCGame has to reproduce. MCGame's own dispatcher logs cover the server side of the conversation.
 
-> **Scope.** Everything here runs against a server you host yourself, such as a local MCGame stack. Only record traffic from servers you are authorised to connect to, and treat the logs as sensitive: they contain account names, session tokens, and character data.
+> **Scope.** Record only sessions you are entitled to: your own MCGame stack, or the official game played with your own account. Recording is passive — the logger observes what the unmodified client does and never alters, replays, or injects calls. Treat every log as sensitive: it contains account names, credentials, session tokens, and character data.
 
 ## Where the logs come from
 
@@ -123,9 +123,69 @@ The renderer also has **truncation limits**. Every log line stays readable, but 
 - strings longer than **96** characters are cut, with a `…(+N)` count of the hidden characters;
 - if decoding fails partway, the values that did decode are kept, followed by `…(+N raw bytes)`.
 
-If you need a full payload, such as a large inventory list, use the transcript to find the RPC, then read the full response on the server side (Part 2) or in the handler code.
+If you need a full payload, such as a large inventory list, use the transcript to find the RPC, then read the full response on the server side (Part 3) or in the handler code.
 
-## Part 2 — Server-side view from the MCGame dispatcher
+## Part 2 — Reference sessions from the official game
+
+The most useful transcript is often the one recorded against the original server: it shows exactly which callbacks the real server sends, with which payloads, in which order. Because the logger sits in the client, the same Llflash build works unchanged — only the URL differs.
+
+### Open the account's launch link
+
+The official portal starts the game with a launch link that carries the account credentials as query parameters, for example:
+
+```text
+https://s3-vuaphapthuat.goplay.vn/s/s12/GameLoader.swf?user=ABCXYZ&pass=123456
+```
+
+- `s12` is the game server the account plays on; use the one from your own link.
+- `user` and `pass` are handed to the loader as FlashVars, so the client logs in without a login screen.
+
+Open that link in Llflash with the audit log enabled. Quote the URL: an unquoted `&` would make the shell cut the command in two.
+
+```bash
+RUST_LOG=warn ./target/release/llflash_desktop \
+  "https://s3-vuaphapthuat.goplay.vn/s/s12/GameLoader.swf?user=ABCXYZ&pass=123456"
+```
+
+On Windows (PowerShell), use single quotes:
+
+```powershell
+$env:RUST_LOG = "warn"
+.\target\release\llflash_desktop.exe 'https://s3-vuaphapthuat.goplay.vn/s/s12/GameLoader.swf?user=ABCXYZ&pass=123456'
+```
+
+The loader reads its profile configuration from the official host, so the `connect` line shows the official RTMP endpoint instead of `127.0.0.1:1935`. Everything else from Part 1 — log location, line format, and truncation limits — is the same.
+
+Only the client-side half is available here; the dispatcher logs in Part 3 exist only on your own server. In practice that is enough, because the client transcript already contains every callback the server pushes.
+
+### Keep the credentials out of anything you share
+
+The launch link is equivalent to the account password, and it ends up in the transcript in two places: the `swf_url` on the `connect` line carries the full query string, and the login handshake (`["G", user, pass, time, session, hash]`) carries the username and password-derived values. Before you attach a transcript to an issue, paste it into a chat, or commit it anywhere, redact it:
+
+```bash
+U='ABCXYZ'; P='123456'
+sed -E \
+  -e 's/(user|pass)=[^&" ]*/\1=REDACTED/g' \
+  -e "s/${U}/REDACTED_USER/g" \
+  -e "s/${P}/REDACTED_PASS/g" \
+  ruffle.log > ruffle.redacted.log
+```
+
+Escape any regular-expression characters in the username or password, then read the `connect` line and the handshake once by hand to confirm nothing slipped through. Keep the raw log on your own machine, and remember that a launch link typed on the command line also lands in your shell history.
+
+### Compare the official session with MCGame
+
+The point of a reference session is the diff. Perform the same action — the same panel, the same button — once against the official server and once against your local stack, then compare the call sequences with `rpclog` from Part 4:
+
+```bash
+bin/rpclog < official.log | jq -r '"\(.direction) \(.method)"' > official.seq
+bin/rpclog < local.log    | jq -r '"\(.direction) \(.method)"' > local.seq
+diff official.seq local.seq
+```
+
+An `in` line present only in `official.seq` is a callback MCGame does not send yet. An `out` line present only there is a call the client never reaches locally, usually because an earlier callback was missing or malformed. Once the method sequence matches, compare the `args` of each pair to check the payloads.
+
+## Part 3 — Server-side view from the MCGame dispatcher
 
 Every RPC that reaches MCGame goes through `internal/infrastructure/rtmp/dispatcher.go`. The dispatcher writes:
 
@@ -164,7 +224,7 @@ jq -c 'select(.msg == "RPC call received" and .method == "chooseCharactor") | .a
 
 Some methods are deliberately **not** logged on the server. The dispatcher has a `quietMethods` map that silences chatty or already-verified RPCs (`checkNetDelay`, `sceneLogin`, `chooseCharactor`, `getShopConfig`, and others) so Docker logs stay readable. Those methods still appear in the Llflash transcript, which sits on the client and ignores that map. To see one on the server too, set its entry to `false` in `dispatcher.go`, rebuild with `make game up`, and switch it back once you're done.
 
-## Part 3 — Turning the transcript into data
+## Part 4 — Turning the transcript into data
 
 A text log is fine for reading through a single session. For anything bigger, such as comparing sessions, counting calls, or building a list of every callback a feature uses, convert it to JSON Lines. Here is a small standalone Go program that reads an Llflash log on stdin and writes one JSON object per call or callback:
 
@@ -263,16 +323,18 @@ bin/rpclog -summary < ~/.cache/ruffle/log/ruffle.log
 Putting the pieces together, this is how I capture a single feature, for example a shop or a daily reward panel:
 
 1. **Start clean.** Set **Log Filename** to the timestamped pattern so every session gets its own file, then launch Llflash with `RUST_LOG=warn`.
-2. **Do one thing per session.** Log in, perform only the action you are studying, and quit. Short transcripts are much easier to read than an evening of play.
+2. **Record the reference.** While the official game is online, open your account's launch link and perform only the action you are studying, then quit. Short transcripts are much easier to read than an evening of play.
 3. **Extract the sequence.** Run `rpclog` on the session file and read the `out` → `in` pairs in order. That sequence is the contract: the method the client sends, its argument order and types, and the callbacks it expects.
-4. **Cross-check with the client.** Find each callback name in `docs/client/system/CallBack.as` or `CallBackGlobal.as` to see which payload keys the client actually reads.
-5. **Cross-check with the server.** In `temp/mcgame-server.log`, look for `Method not found` (not implemented yet) and `RPC call failed` (implemented but broken), and read the untruncated `args`.
-6. **Write it down.** Record what you learned in the feature's `docs/memory/<feature>.md` in the MCGame repository, so the next person doesn't have to capture it again.
+4. **Replay it locally.** Perform the same action against your MCGame stack and diff the two sequences, as in Part 2.
+5. **Cross-check with the client.** Find each callback name in `docs/client/system/CallBack.as` or `CallBackGlobal.as` to see which payload keys the client actually reads.
+6. **Cross-check with the server.** In `temp/mcgame-server.log`, look for `Method not found` (not implemented yet) and `RPC call failed` (implemented but broken), and read the untruncated `args`.
+7. **Write it down.** Record what you learned in the feature's `docs/memory/<feature>.md` in the MCGame repository, with redacted transcript excerpts, so the next person doesn't have to capture it again.
 
 ## Troubleshooting
 
 - **No `rtmp_audit` lines at all.** `RUST_LOG` isn't set (the default filter leaves the target off), or your filter contains `rtmp_audit=off`. Also check that you are running the desktop player and not the browser extension.
 - **The log file is empty after a restart.** The single-file pattern truncates `ruffle.log` on every launch. Switch to the timestamped pattern.
+- **The official launch link opens a blank or partial window.** Check that the whole URL, including `&pass=…`, reached Llflash — an unquoted `&` drops everything after it. An expired or changed link fails the same way; get a fresh one from the portal.
 - **`connect` is logged, but there is no `Connect.Success`.** Check that the compose stack is up (`make game up`), that port `1935` is free, and that `config.xml` points at the right host.
 - **A call shows up in Llflash but not in the server log.** It is probably in `quietMethods`. If it isn't, check for a `Rate limited` warning: some high-frequency methods (`udcr`, `udcp`, `cbom`) are dropped silently when they hit their rate limit.
 
